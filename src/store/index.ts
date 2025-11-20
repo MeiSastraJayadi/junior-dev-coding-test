@@ -1,0 +1,99 @@
+import axios from 'axios'
+import { createStore } from 'vuex'
+
+export interface User {
+  id: number
+  name: string
+  email: string
+  created_at: string; 
+  updated_at: string; 
+}
+
+export interface Product {
+    id: number 
+    name: string 
+    price: number 
+    category: string 
+    created_at: string 
+    updated_at: string 
+}
+
+export interface DataTable {
+    name: string
+    price: number 
+    updated: string 
+    is_active: boolean
+}
+
+
+
+export interface RootState {
+  users: User[]
+  products: Product[]
+  loading: boolean
+  page: number
+  pageTotal: number
+  dataTable: DataTable[]
+  error: string | null
+}
+
+
+export default createStore<RootState>({
+  state: (): RootState => ({
+    users: [],
+    products: [],
+    loading: false,
+    page: 1,
+    pageTotal: 5,
+    dataTable: [],
+    error: null
+  }),
+  mutations: {
+    SET_LOADING(state: RootState, value: boolean) {
+      state.loading = value;
+    },
+    SET_USERS(state: RootState, users: User[]) {
+      state.users = users;
+    },
+    SET_ERROR(state: RootState, error: string | null) {
+      state.error = error;
+    },
+    SET_DATATABLE(state: RootState, value: DataTable[]) {
+      state.dataTable = value;
+    },
+    SET_PRODUCTS(state: RootState, products: Product[]) {
+      state.products = products;
+    }
+  },
+  actions: {
+    async fetchDataUsers({ commit } : any) {
+      commit('SET_LOADING', true)
+      commit('SET_ERROR', null)
+      try {
+        const res = await axios.get('/service/api/users')
+        commit('SET_USERS', res.data.data)
+      } catch (err: any) {
+        commit('SET_ERROR', err.message || 'Failed to fetch users')
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+    async fetchDataProducts({ commit } : any) {
+      commit('SET_LOADING', true)
+      commit('SET_ERROR', null)
+      try {
+        const res = await axios.get('/service/api/products')
+        commit('SET_PRODUCTS', res.data.data)
+      } catch (err: any) {
+        commit('SET_ERROR', err.message || 'Failed to fetch users')
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
+  },
+  getters: {
+    userCount: (state: RootState) => state.users.length,
+    activeUsers: (state: RootState) => state.users.filter(u => u.email.includes('@'))
+  }
+})

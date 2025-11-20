@@ -1,0 +1,13 @@
+{
+    "extends": "@tsconfig/node22/tsconfig.json",
+    "include": ["src"],
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "NodeNext",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "allowJs": false,
+      "outDir": "../dist-server"
+    }
+  }
+  

@@ -1,0 +1,62 @@
+{
+  "name": "junior-dev-coding-test",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"vite\" \"nodemon --exec tsx server/src/index.ts\"",
+    "dev:client": "vite",
+    "dev:server": "vite && nodemon --exec tsx server/src/index.ts",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "lint": "eslint . --fix --cache",
+    "format": "prettier --write src/", 
+    "seed": "npx tsx prisma/seeders/index.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "@tailwindcss/vite": "^4.1.17",
+    "axios": "^1.13.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.11",
+    "prisma": "^7.0.0",
+    "tailwindcss": "^4.1.17",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.3",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^22.19.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/tsconfig": "^0.8.1",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.37.0",
+    "eslint-plugin-playwright": "^2.2.2",
+    "eslint-plugin-vue": "~10.5.0",
+    "jiti": "^2.6.1",
+    "naive-ui": "^2.43.2",
+    "npm-run-all2": "^8.0.4",
+    "prettier": "3.6.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.0",
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-vue-devtools": "^8.0.3",
+    "vue-tsc": "^3.1.1"
+  }
+}
