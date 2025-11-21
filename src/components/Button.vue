@@ -11,7 +11,7 @@
         v-model:show="showModal"
         preset="card"
         :title="`${currentName} Form`"
-        class="md:!w-[40%] sm:!w-full"
+        class="md:!w-[40%] max-[600px]:!w-[90%]"
     >
         <UserForm
         @success="closeModal"

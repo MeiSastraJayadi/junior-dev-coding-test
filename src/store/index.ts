@@ -71,11 +71,15 @@ export default createStore<RootState>({
     }
   },
   actions: {
-    async fetchDataUsers({ commit } : any) {
+    async fetchDataUsers({ commit } : any, payload?: { search?: string }) {
       commit('SET_LOADING', true)
       commit('SET_ERROR', null)
       try {
-        const res = await axios.get('/service/api/users')
+        let url = '/service/api/users'
+        if (payload?.search) {
+          url += `?search=${encodeURIComponent(payload.search)}`
+        }
+        const res = await axios.get(url)
         commit('SET_USERS', res.data.data)
       } catch (err: any) {
         commit('SET_ERROR', err.message || 'Failed to fetch users')
@@ -83,11 +87,15 @@ export default createStore<RootState>({
         commit('SET_LOADING', false)
       }
     },
-    async fetchDataProducts({ commit } : any) {
+    async fetchDataProducts({ commit } : any, payload?: { search?: string }) {
       commit('SET_LOADING', true)
       commit('SET_ERROR', null)
       try {
-        const res = await axios.get('/service/api/products')
+        let url = '/service/api/products'
+        if (payload?.search) {
+          url += `?search=${encodeURIComponent(payload.search)}`
+        }
+        const res = await axios.get(url)
         commit('SET_PRODUCTS', res.data.data)
       } catch (err: any) {
         commit('SET_ERROR', err.message || 'Failed to fetch users')

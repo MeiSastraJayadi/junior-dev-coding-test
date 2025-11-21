@@ -36,33 +36,62 @@
         :disabled="loading"
         @click="handleSubmit"
       >
-        Save
+        {{ buttonText }}
       </n-button>
     </div>
   </n-form>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, watch, computed, defineProps } from "vue"
 import axios from "axios"
 import { useNotification } from "naive-ui"
 import { useStore } from "vuex"
 
+interface ProductUpdate {
+  id?: number
+  name: string
+  price: number | null
+  category: string
+}
+
+const props = defineProps<{ initialData?: ProductUpdate }>()
+
 const emit = defineEmits(["success", "close"])
 const store = useStore()
 const notify = useNotification()
-
 const loading = ref(false)
 
-const form = ref({
-  name: "",
-  price: null,
-  category: ""
+const form = ref<ProductUpdate>({
+  id: props.initialData?.id,
+  name: props.initialData?.name || "",
+  price: props.initialData?.price ?? null,
+  category: props.initialData?.category || ""
 })
+
+watch(
+  () => props.initialData,
+  (newData) => {
+    if (newData) {
+      form.value.id = newData.id
+      form.value.name = newData.name
+      form.value.price = newData.price ?? null
+      form.value.category = newData.category
+    } else {
+      form.value.id = undefined
+      form.value.name = ""
+      form.value.price = null
+      form.value.category = ""
+    }
+  },
+  { immediate: true }
+)
+
+const buttonText = computed(() => form.value.id ? "Update" : "Save")
 
 const rules = {
   name: { required: true, message: "Name is required", trigger: "blur" },
-  price: { required: true, message: "Price is required", trigger: "blur", type: 'number' },
+  price: { required: true, message: "Price is required", trigger: "blur", type: "number" },
   category: { required: true, message: "Category is required", trigger: "blur" }
 }
 
@@ -70,29 +99,21 @@ async function handleSubmit() {
   try {
     loading.value = true
 
-    await axios.post("/service/api/products", form.value)
+    if (form.value.id) {
+      await axios.put(`/service/api/products/${form.value.id}`, form.value)
+      notify.success({ title: "Success", description: "Product updated successfully" })
+    } else {
+      await axios.post("/service/api/products", form.value)
+      notify.success({ title: "Success", description: "Product created successfully" })
+    }
 
-    // refresh data store
     await store.dispatch("fetchDataProducts")
+    emit("success")
 
-    notify.success({
-      title: "Success",
-      description: "Product added successfully"
-    })
-
-    await store.dispatch('fetchDataProducts')
-
-    emit("success") // untuk nutup modal parent
-
-    // reset form
-    form.value = { name: "", price: null, category: "" }
+    form.value = { id: undefined, name: "", price: null, category: "" }
   } catch (err) {
     console.error(err)
-
-    notify.error({
-      title: "Error",
-      description: "Failed to add product"
-    })
+    notify.error({ title: "Error", description: "Failed to submit product" })
   } finally {
     loading.value = false
   }

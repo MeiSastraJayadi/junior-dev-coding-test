@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Button from './Button.vue'
+import SearchBar from './SearchBar.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -24,19 +25,16 @@ function onChanges(value: string) {
 
 <template>
     <div>
-      <!-- Filter bar -->
-      <div class="flex items-center justify-between">
-        <!-- Tabs filter -->
-        <div class="flex w-[30%]">
+      <div class="flex items-center justify-between max-[600px]:flex-wrap">
+        <div class="flex w-[30%] max-[600px]:w-full">
             <n-tabs class="!shadow-inner" @update:value="onChanges" v-model:value="currentName" type="segment">
                 <n-tab name="User">User</n-tab>
                 <n-tab name="Product">Product</n-tab>
             </n-tabs>
         </div>
         
-        <div class="flex items-center">
-            <!-- <PageDropDown/>
-            <SearchBar/> -->
+        <div class="flex items-center max-[600px]:w-full max-[600px]:pt-4">
+            <SearchBar class="mr-2"/>
             <Button>
               Add {{ currentName }}
             </Button>

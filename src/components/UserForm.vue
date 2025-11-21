@@ -24,29 +24,54 @@
         :disabled="loading"
         @click="handleSubmit"
       >
-        Save
+        {{ buttonText }}
       </n-button>
     </div>
   </n-form>
 </template>
 
-
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, defineProps, computed } from 'vue'
 import axios from 'axios'
 import type { AxiosError } from 'axios'
 import { useNotification } from 'naive-ui'
 import { useStore } from 'vuex'
 
 const emit = defineEmits(["success", "cancel"])
-const store = useStore();
-
+const store = useStore()
+const notification = useNotification()
 const loading = ref(false)
 
-const form = ref({
-  name: "",
-  email: "",
-  role: null,
+interface UserUpdate {
+  id?: number
+  name: string
+  email: string
+}
+
+const props = defineProps<{
+  initialData?: UserUpdate
+}>()
+
+const form = ref<UserUpdate>({
+  name: props.initialData?.name || '',
+  email: props.initialData?.email || '',
+  id: props.initialData?.id,
+})
+
+watch(() => props.initialData, (newData) => {
+  if (newData) {
+    form.value.id = newData.id
+    form.value.name = newData.name
+    form.value.email = newData.email
+  } else {
+    form.value.id = undefined
+    form.value.name = ''
+    form.value.email = ''
+  }
+}, { immediate: true })
+
+const buttonText = computed(() => {
+  return form.value.id ? 'Update' : 'Save'
 })
 
 const rules = {
@@ -54,32 +79,41 @@ const rules = {
   email: { required: true, message: "Email is required", trigger: "blur" },
 }
 
-const notification = useNotification()
-
 async function handleSubmit() {
   try {
     loading.value = true
 
-    await axios.post("/service/api/users", form.value)
-
-    notification.success({
-      title: "Success",
-      description: "User created successfully."
-    })
+    if (form.value.id) {
+      await axios.put(`/service/api/users/${form.value.id}`, {
+        name: form.value.name,
+        email: form.value.email
+      })
+      notification.success({
+        title: "Success",
+        description: "User updated successfully."
+      })
+    } else {
+      await axios.post("/service/api/users", {
+        name: form.value.name,
+        email: form.value.email
+      })
+      notification.success({
+        title: "Success",
+        description: "User created successfully."
+      })
+    }
 
     await store.dispatch('fetchDataUsers')
-
     emit("success")
 
-    form.value = { name: "", email: "", role: null }
+    form.value = { name: "", email: "" }
 
-  } catch (err : unknown) {
-    const axiosErr = err as AxiosError<{ message: string }>;
+  } catch (err: unknown) {
+    const axiosErr = err as AxiosError<{ message: string }>
     notification.error({
       title: "Error",
-      description: axiosErr?.response?.data?.message || "Failed to create user."
+      description: axiosErr?.response?.data?.message || "Failed to submit user."
     })
-
   } finally {
     loading.value = false
   }

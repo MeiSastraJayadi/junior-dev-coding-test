@@ -22,7 +22,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/service": {
-        target: "http://localhost:3001", 
+        target: process.env.API_BASE_URL || "http://localhost:3001", 
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/service/, ""), 
