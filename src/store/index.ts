@@ -34,7 +34,8 @@ export interface RootState {
   page: number
   pageTotal: number
   dataTable: DataTable[]
-  error: string | null
+  error: string | null, 
+  closeModal: boolean
 }
 
 
@@ -46,7 +47,8 @@ export default createStore<RootState>({
     page: 1,
     pageTotal: 5,
     dataTable: [],
-    error: null
+    error: null, 
+    closeModal: false
   }),
   mutations: {
     SET_LOADING(state: RootState, value: boolean) {
@@ -63,6 +65,9 @@ export default createStore<RootState>({
     },
     SET_PRODUCTS(state: RootState, products: Product[]) {
       state.products = products;
+    }, 
+    SET_CLOSE_MODAL(state: RootState, value : boolean) {
+      state.closeModal = value
     }
   },
   actions: {
@@ -90,6 +95,12 @@ export default createStore<RootState>({
         commit('SET_LOADING', false)
       }
     },
+    closeModal({ commit } : any) {
+      commit('SET_CLOSE_MODAL', true)
+    }, 
+    openModal({ commit } : any) {
+      commit('SET_CLOSE_MODAL', false)
+    }
 
   },
   getters: {

@@ -3,8 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 const routes = [
-  { path: '/', name: 'Users', component: DataTable },
-  { path: '/products', name: 'Products', component: DataTable },
+  { path: '/', redirect: '/users' },
+  { path: '/users', name: 'User', component: DataTable },
+  { path: '/products', name: 'Product', component: DataTable },
 ]
 
 const router = createRouter({

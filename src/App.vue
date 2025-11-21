@@ -5,15 +5,15 @@ import Tabs from './components/Tabs.vue';
 
 <template>
   <div class="w-full flex items-start justify-center">
-
     <div class="md:container">
-        <div class="w-full rounded border border-[#E9EBE8] bg-white mt-4 p-2">
-            <Tabs/>
-            <div class="pt-8">
-              <router-view />
-            </div>
-            <!-- <DataTable class="mt-4"/> -->
-        </div>
+       <n-notification-provider>
+          <div class="w-full shadow shadow-lg rounded border border-[#E9EBE8] bg-white mt-4 p-2">
+              <Tabs/>
+              <div class="pt-8">
+                  <router-view />
+              </div>
+          </div>
+       </n-notification-provider>
     </div>
   </div>
 </template>

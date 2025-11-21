@@ -11,7 +11,11 @@ const prisma = new PrismaClient({ adapter })
 
 // GET all users
 router.get("/", async (_req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
   res.json({
     status : true, 
     data : users
