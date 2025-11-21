@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"nodemon --exec tsx server/src/index.ts\"",
     "dev:client": "vite",
-    "dev:server": "vite && nodemon --exec tsx server/src/index.ts",
+    "dev:server": "nodemon --exec tsx server/src/index.ts",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:e2e": "playwright test",
