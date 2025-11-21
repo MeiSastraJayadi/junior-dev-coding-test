@@ -139,9 +139,12 @@ watch(
   }
 )
 
+function getPath(): Path {
+  if (route.name === "Product") return "Product";
+  return "User"; // fallback default
+}
 
 
-
-const columns = computed(() => createColumns(route.name as string))
+const columns = computed(() => createColumns(getPath()))
 const pagination = { pageSize: 10 }
 </script>

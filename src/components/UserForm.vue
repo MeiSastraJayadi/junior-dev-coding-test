@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import axios from 'axios'
+import type { AxiosError } from 'axios'
 import { useNotification } from 'naive-ui'
 import { useStore } from 'vuex'
 
@@ -72,10 +73,11 @@ async function handleSubmit() {
 
     form.value = { name: "", email: "", role: null }
 
-  } catch (err) {
+  } catch (err : unknown) {
+    const axiosErr = err as AxiosError<{ message: string }>;
     notification.error({
       title: "Error",
-      description: err?.response?.data?.message || "Failed to create user."
+      description: axiosErr?.response?.data?.message || "Failed to create user."
     })
 
   } finally {
