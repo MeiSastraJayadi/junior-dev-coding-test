@@ -29,7 +29,7 @@ Edit the `.env` file and set your values:
 
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
-API_BASE_URL="http://localhost:3001"
+VITE_API_BASE_URL="http://localhost:3001"
 ```
 
 Make sure the URLs match your database and API server configuration.
@@ -53,6 +53,13 @@ npx prisma migrate dev --name init
 ### 6️⃣ Generate Prisma Client
 ```bash
 npx prisma generate
+```
+
+---
+
+### 6️⃣ Run Seeder Script
+```bash
+npm run seed
 ```
 
 ---

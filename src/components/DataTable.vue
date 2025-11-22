@@ -58,7 +58,7 @@ import ProductForm from './ProductForm.vue'
 import axios, { AxiosError } from 'axios'
 
 
-const API_BASE_URL = import.meta.env.API_BASE_URL || "https://jobzenix.site/service-vue"; 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://jobzenix.site/service-vue"; 
 const route = useRoute()
 const currentName = ref<string>(route.name?.toString() ?? "")
 const showModal = ref(false)
@@ -183,14 +183,14 @@ function deleteDialog(row: User | Product) {
 async function handleDelete(row: User | Product) {
   try {
     if ('email' in row) {
-      await axios.delete(`${API_BASE_URL}/api/users/${row.id}`)
+      await axios.delete(`${VITE_API_BASE_URL}/api/users/${row.id}`)
       notification.success({
         title: "Success",
         description: "User has been deleted."
       })
       await store.dispatch('fetchDataUsers')
     } else {
-      await axios.delete(`${API_BASE_URL}/api/products/${row.id}`)
+      await axios.delete(`${VITE_API_BASE_URL}/api/products/${row.id}`)
       notification.success({
         title: "Success",
         description: "Product has been deleted"
