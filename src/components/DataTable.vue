@@ -94,7 +94,7 @@ function createColumns<P extends Path>(path: P): DataTableColumns<RowType<P>> {
   const baseColumns: DataTableColumns<RowType<P>> = path === "Product"
     ? [
         { title: "Name", key: "name", fixed: 'left', width: 150 },
-        { title: "Price", key: "price", width: 200 },
+        { title: "Price", key: "price", width: 200, render: (row) => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format((row as ProductRow).price) },
         { title: "Category", key: "category", width: 200 },
         { title: 'Created At', key: 'created_at', width: 300, render(row) { return new Date(row.created_at).toLocaleString() } },
         { title: 'Updated At', key: 'updated_at', width: 300, render(row) { return new Date(row.updated_at).toLocaleString() } },
