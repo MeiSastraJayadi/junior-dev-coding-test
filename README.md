@@ -1,67 +1,82 @@
 # junior-dev-coding-test
 
-This template should help get you started developing with Vue 3 in Vite.
+## 🔗 Demo
+Live Demo: **https://junior-dev-coding-test.vercel.app**
 
-## Recommended IDE Setup
+## 📦 Requirements
+Ensure your environment meets the following requirements:
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Node.js v22.12**
+- **PostgreSQL**
 
-## Recommended Browser Setup
+---
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 🛠️ Installation Steps
 
-## Type Support for `.vue` Imports in TS
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/MeiSastraJayadi/junior-dev-coding-test.git
+cd junior-dev-coding-test
+```
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### 2️⃣ Copy Environment File
+```bash
+cp .env.example .env
+```
 
-## Customize configuration
+### 3️⃣ Configure Environment Variables
+Edit the `.env` file and set your values:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
+API_BASE_URL="http://localhost:3001"
+```
 
-## Project Setup
+Make sure the URLs match your database and API server configuration.
 
-```sh
+---
+
+### 4️⃣ Install Dependencies
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
+### 5️⃣ Run Database Migration
+```bash
+npx prisma migrate dev --name init
+```
+
+---
+
+### 6️⃣ Generate Prisma Client
+```bash
+npx prisma generate
+```
+
+---
+
+### 7️⃣ Run Frontend (Vue) and Backend (Express API) Together
+This command runs both the Vue client and the Express API server:
+
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+---
 
-```sh
-npm run build
+### 8️⃣ Run Only the API Server
+Use this if you want to run the Express API server only:
+
+```bash
+npm run dev:server
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+## 🎁 Bonus Features
 
-```sh
-# Install browsers for the first run
-npx playwright install
+### ⭐ 1. Live Search with Debouncing  
 
-# When testing on CI, must build the project first
-npm run build
+### ⭐ 2. Update & Delete Record Features  
 
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+### ⭐ 3. Dialog Form & Notification Messages  
