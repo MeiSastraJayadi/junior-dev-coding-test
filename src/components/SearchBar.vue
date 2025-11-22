@@ -1,20 +1,19 @@
 <template>
     <div class="flex items-center gap-2">
-      <n-input
-        v-model:value="searchQuery"
-        :placeholder="`Search ${currentName}s...`"
-        clearable
-        class="w-60 rounded shadow"
-      >
-    <template #prefix>
-        <n-icon>
-        <SearchOutline />
-        </n-icon>
-    </template>
-    </n-input>
-
-    <n-spin v-if="loading" size="small" />
-</div>
+        <n-input
+            v-model:value="searchQuery"
+            :placeholder="`Search ${currentName}s...`"
+            clearable
+            class="w-60 rounded shadow"
+            :loading="loading"
+        >
+            <template #prefix>
+                <n-icon>
+                <SearchOutline />
+                </n-icon>
+            </template>
+        </n-input>
+    </div>
 </template>
 
 <script lang="ts" setup>
