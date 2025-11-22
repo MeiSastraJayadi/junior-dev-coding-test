@@ -37,6 +37,8 @@ import type { AxiosError } from 'axios'
 import { useNotification } from 'naive-ui'
 import { useStore } from 'vuex'
 
+const API_BASE_URL = import.meta.env.API_BASE_URL || "https://jobzenix.site/service-vue"; 
+
 const emit = defineEmits(["success", "cancel"])
 const store = useStore()
 const notification = useNotification()
@@ -84,7 +86,7 @@ async function handleSubmit() {
     loading.value = true
 
     if (form.value.id) {
-      await axios.put(`/service/api/users/${form.value.id}`, {
+      await axios.put(`${API_BASE_URL}/service/api/users/${form.value.id}`, {
         name: form.value.name,
         email: form.value.email
       })
@@ -93,7 +95,7 @@ async function handleSubmit() {
         description: "User updated successfully."
       })
     } else {
-      await axios.post("/service/api/users", {
+      await axios.post(`${API_BASE_URL}/service/api/users`, {
         name: form.value.name,
         email: form.value.email
       })

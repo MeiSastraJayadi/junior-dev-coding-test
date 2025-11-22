@@ -48,6 +48,8 @@ import axios from "axios"
 import { useNotification } from "naive-ui"
 import { useStore } from "vuex"
 
+const API_BASE_URL = import.meta.env.API_BASE_URL || "https://jobzenix.site/service-vue"; 
+
 interface ProductUpdate {
   id?: number
   name: string
@@ -100,10 +102,10 @@ async function handleSubmit() {
     loading.value = true
 
     if (form.value.id) {
-      await axios.put(`/service/api/products/${form.value.id}`, form.value)
+      await axios.put(`${API_BASE_URL}/service/api/products/${form.value.id}`, form.value)
       notify.success({ title: "Success", description: "Product updated successfully" })
     } else {
-      await axios.post("/service/api/products", form.value)
+      await axios.post(`${API_BASE_URL}/service/api/products`, form.value)
       notify.success({ title: "Success", description: "Product created successfully" })
     }
 
