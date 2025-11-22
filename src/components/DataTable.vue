@@ -171,14 +171,14 @@ function deleteDialog(row: User | Product) {
 async function handleDelete(row: User | Product) {
   try {
     if ('email' in row) {
-      await axios.delete(`${API_BASE_URL}/service/api/users/${row.id}`)
+      await axios.delete(`${API_BASE_URL}/api/users/${row.id}`)
       notification.success({
         title: "Success",
         description: "User has been deleted."
       })
       await store.dispatch('fetchDataUsers')
     } else {
-      await axios.delete(`${API_BASE_URL}/service/api/products/${row.id}`)
+      await axios.delete(`${API_BASE_URL}/api/products/${row.id}`)
       notification.success({
         title: "Success",
         description: "Product has been deleted"

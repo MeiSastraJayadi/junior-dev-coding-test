@@ -102,10 +102,10 @@ async function handleSubmit() {
     loading.value = true
 
     if (form.value.id) {
-      await axios.put(`${API_BASE_URL}/service/api/products/${form.value.id}`, form.value)
+      await axios.put(`${API_BASE_URL}/api/products/${form.value.id}`, form.value)
       notify.success({ title: "Success", description: "Product updated successfully" })
     } else {
-      await axios.post(`${API_BASE_URL}/service/api/products`, form.value)
+      await axios.post(`${API_BASE_URL}/api/products`, form.value)
       notify.success({ title: "Success", description: "Product created successfully" })
     }
 

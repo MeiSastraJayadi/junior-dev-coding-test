@@ -86,7 +86,7 @@ async function handleSubmit() {
     loading.value = true
 
     if (form.value.id) {
-      await axios.put(`${API_BASE_URL}/service/api/users/${form.value.id}`, {
+      await axios.put(`${API_BASE_URL}/api/users/${form.value.id}`, {
         name: form.value.name,
         email: form.value.email
       })
@@ -95,7 +95,7 @@ async function handleSubmit() {
         description: "User updated successfully."
       })
     } else {
-      await axios.post(`${API_BASE_URL}/service/api/users`, {
+      await axios.post(`${API_BASE_URL}/api/users`, {
         name: form.value.name,
         email: form.value.email
       })
