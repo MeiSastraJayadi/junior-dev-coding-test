@@ -1,20 +1,29 @@
 <template>
-  <n-space vertical>
-    <n-data-table
-      :columns="columns"
-      :data="data"
-      :pagination="pagination"
-      class="h-[80vh]"
-      flex-height
-    >
-      <template #empty>
-        <div class="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-          <h2 class="text-base font-medium">Empty record</h2>
-          <p class="text-sm text-gray-400">Add new record to view all data</p>
-        </div>
-      </template>
-    </n-data-table>
-  </n-space>
+  <n-card class="max-[600px]:!w-[90vw]">
+    <n-space vertical>
+      <n-data-table
+        :columns="columns"
+        :data="data"
+        :pagination="pagination"
+        class="h-[80vh]"
+        flex-height
+        virtual-scroll
+        virtual-scroll-x
+        :scroll-x="scrollX"
+        :min-row-height="48"
+        :height-for-row="() => 48"
+        virtual-scroll-header
+        :header-height="48"
+      >
+        <template #empty>
+          <div class="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+            <h2 class="text-base font-medium">Empty record</h2>
+            <p class="text-sm text-gray-400">Add new record to view all data</p>
+          </div>
+        </template>
+      </n-data-table>
+    </n-space>
+  </n-card>
 
   <n-modal
     v-model:show="showModal"
@@ -54,6 +63,7 @@ const route = useRoute()
 const currentName = ref<string>(route.name?.toString() ?? "")
 const showModal = ref(false)
 const selectedRow = ref<User | Product | null>(null)
+const scrollX = ref(0)
 
 function closeModal() {
   showModal.value = false
@@ -83,24 +93,26 @@ type RowType<P extends Path> = P extends "Product" ? ProductRow : UserRow
 function createColumns<P extends Path>(path: P): DataTableColumns<RowType<P>> {
   const baseColumns: DataTableColumns<RowType<P>> = path === "Product"
     ? [
-        { title: "Name", key: "name", fixed: 'left' },
-        { title: "Price", key: "price", fixed: 'left' },
-        { title: "Category", key: "category" },
-        { title: 'Created At', key: 'created_at', render(row) { return new Date(row.created_at).toLocaleString() } },
-        { title: 'Updated At', key: 'updated_at', render(row) { return new Date(row.updated_at).toLocaleString() } },
+        { title: "Name", key: "name", fixed: 'left', width: 150 },
+        { title: "Price", key: "price", width: 200 },
+        { title: "Category", key: "category", width: 200 },
+        { title: 'Created At', key: 'created_at', width: 300, render(row) { return new Date(row.created_at).toLocaleString() } },
+        { title: 'Updated At', key: 'updated_at', width: 300, render(row) { return new Date(row.updated_at).toLocaleString() } },
       ]
     : [
-        { title: "Name", key: "name", fixed: 'left' },
-        { title: "Email", key: "email", fixed: 'left' },
-        { title: 'Created At', key: 'created_at', render(row) { return new Date(row.created_at).toLocaleString() } },
-        { title: 'Updated At', key: 'updated_at', render(row) { return new Date(row.updated_at).toLocaleString() } },
+        { title: "Name", key: "name", fixed: 'left', width: 150 },
+        { title: "Email", key: "email", width: 200 },
+        { title: 'Created At', key: 'created_at', width: 300, render(row) { return new Date(row.created_at).toLocaleString() } },
+        { title: 'Updated At', key: 'updated_at', width: 300, render(row) { return new Date(row.updated_at).toLocaleString() } },
       ]
+  scrollX.value = path === "Product" ? 1310 : 1110
 
   // Action column
   baseColumns.push({
     title: 'Action',
     key: 'action',
-    fixed: 'right',
+    fixed: 'right', 
+    width: 160,
     render(row: RowType<P>) {
       return h('div', { class: 'flex gap-1' }, [
         h(NButton, {
