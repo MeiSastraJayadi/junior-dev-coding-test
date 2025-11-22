@@ -20,16 +20,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-  },
-  server: {
-    proxy: {
-      "/service": {
-        // target: process.env.API_BASE_URL || "http://localhost:3001", 
-        target: "https://jobzenix.site/service-vue", 
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/service/, ""), 
-      }
-    }
   }
 })

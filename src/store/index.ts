@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { createStore } from 'vuex'
 
+const API_BASE_URL = import.meta.env.API_BASE_URL || "https://jobzenix.site/service-vue"; 
+
 export interface User {
   id: number
   name: string
@@ -75,7 +77,7 @@ export default createStore<RootState>({
       commit('SET_LOADING', true)
       commit('SET_ERROR', null)
       try {
-        let url = '/service/api/users'
+        let url = `${API_BASE_URL}/api/users`
         if (payload?.search) {
           url += `?search=${encodeURIComponent(payload.search)}`
         }
@@ -91,7 +93,7 @@ export default createStore<RootState>({
       commit('SET_LOADING', true)
       commit('SET_ERROR', null)
       try {
-        let url = '/service/api/products'
+        let url = `${API_BASE_URL}/api/products`
         if (payload?.search) {
           url += `?search=${encodeURIComponent(payload.search)}`
         }
