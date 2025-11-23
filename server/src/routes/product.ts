@@ -22,7 +22,6 @@ router.get("/", async (_req: Request, res: Response) => {
             ],
           }
         : undefined,
-      orderBy: { created_at: "desc" },
     });
     res.json({ status: true, data: products });
   } catch (err) {

@@ -23,7 +23,6 @@ router.get("/", async (_req: Request, res: Response) => {
             ],
           }
         : undefined,
-      orderBy: { created_at: "desc" },
     })
 
     res.status(200).json({ status: true, data: users })
